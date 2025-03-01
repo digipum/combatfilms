@@ -34,6 +34,12 @@ export function Header() {
           </div>
           <nav className="hidden space-x-4 md:flex">
             <Link
+              href="/store"
+              className="font-medium text-muted-foreground text-sm hover:text-primary"
+            >
+              Store
+            </Link>
+            <Link
               href="/about"
               className="font-medium text-muted-foreground text-sm hover:text-primary"
             >
@@ -112,6 +118,12 @@ export function Header() {
           </div>
 
           <nav className="flex flex-col space-y-4">
+            <Link
+              href="/store"
+              className="font-medium text-base text-muted-foreground hover:text-primary"
+            >
+              Store
+            </Link>
             <Link
               href="/about"
               className="font-medium text-base text-muted-foreground hover:text-primary"
