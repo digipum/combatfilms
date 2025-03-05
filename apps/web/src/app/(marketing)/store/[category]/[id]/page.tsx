@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { documentaries, books, documents, type Product } from "../../_data/products";
+import { PayPalCheckout } from "./paypal-checkout";
+import { StreamingOptions } from "./streaming-options";
 
 interface ProductDetailPageProps {
   params: {
@@ -36,6 +38,12 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
     notFound();
   }
 
+  // Check if the product is a physical DVD (currently only documentaries)
+  const isPhysicalDVD = product.category === 'documentaries';
+  
+  // Check if it's the "Unfortunate Brothers" documentary (id: 'doc-1')
+  const isUnfortunateBrothers = product.id === 'doc-1';
+
   return (
     <div className="container mx-auto py-10 px-4">
       <div className="mb-8">
@@ -65,8 +73,18 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="inline-block bg-muted text-muted-foreground rounded-full px-3 py-1 text-sm">
-                {product.category.charAt(0).toUpperCase() + product.category.slice(1, -1)}
+                {product.category.charAt(0).toUpperCase() + product.category.slice(1)}
               </span>
+              {isPhysicalDVD && (
+                <span className="inline-block bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-300 rounded-full px-3 py-1 text-sm">
+                  Physical DVD
+                </span>
+              )}
+              {isUnfortunateBrothers && (
+                <span className="inline-block bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-300 rounded-full px-3 py-1 text-sm">
+                  Digital Streaming
+                </span>
+              )}
             </div>
             <h1 className="text-3xl font-bold mb-2">{product.title}</h1>
             <p className="text-2xl font-semibold text-primary">${product.price.toFixed(2)}</p>
@@ -78,9 +96,17 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           </div>
 
           <div className="pt-6">
-            <Button size="lg" className="w-full sm:w-auto px-8">
-              Purchase Now
-            </Button>
+            {isUnfortunateBrothers && (
+              <StreamingOptions />
+            )}
+            
+            {isPhysicalDVD ? (
+              <PayPalCheckout product={product} />
+            ) : (
+              <Button size="lg" className="w-full sm:w-auto px-8">
+                Purchase Now
+              </Button>
+            )}
           </div>
         </div>
       </div>
