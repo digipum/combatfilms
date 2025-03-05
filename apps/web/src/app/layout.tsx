@@ -10,8 +10,14 @@ import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Webapp Starter Template",
-  description: "A monorepo template for building webapps - optimized for ai.",
+  title: "Combat Films",
+  description: "Combat Films - Historical Combat Documentary Films and Resources",
+  icons: {
+    icon: [
+      { url: "/cf_favicon.ico" },
+      { url: "/cf_logo.webp", type: "image/webp" },
+    ],
+  },
 };
 interface RootLayoutProps {
   children: React.ReactNode;

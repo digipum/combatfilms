@@ -10,7 +10,7 @@ interface PayPalButtonProps {
   compact?: boolean;
 }
 
-export function PayPalButton({ productTitle, option, showSpinner = true, compact = false }: PayPalButtonProps) {
+export function PayPalButton({ productTitle, option, showSpinner = false, compact = false }: PayPalButtonProps) {
   const loadingRef = useRef<HTMLDivElement>(null);
 
   // Function to submit the PayPal form exactly as provided

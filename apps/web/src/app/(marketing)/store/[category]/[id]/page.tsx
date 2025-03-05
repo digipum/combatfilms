@@ -7,15 +7,15 @@ import { PayPalCheckout } from "./paypal-checkout";
 import { StreamingOptions } from "./streaming-options";
 
 interface ProductDetailPageProps {
-  params: {
+  params: Promise<{
     category: string;
     id: string;
-  };
+  }>;
 }
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
-  // Get the product based on category and id
-  const { category, id } = params;
+  // Get the product based on category and id by awaiting the params promise
+  const { category, id } = await params;
   
   let product: Product | undefined;
 
@@ -41,8 +41,8 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
   // Check if the product is a physical DVD (currently only documentaries)
   const isPhysicalDVD = product.category === 'documentaries';
   
-  // Check if it's the "Unfortunate Brothers" documentary (id: 'doc-1')
-  const isUnfortunateBrothers = product.id === 'doc-1';
+  // Check if it's the "Unfortunate Brothers" documentary
+  const isUnfortunateBrothers = product.id === 'doc-unfortunate-brothers';
 
   return (
     <div className="container mx-auto py-10 px-4">
@@ -80,7 +80,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
                   Physical DVD
                 </span>
               )}
-              {isUnfortunateBrothers && (
+              {isPhysicalDVD && (
                 <span className="inline-block bg-green-50 text-green-700 dark:bg-green-950/30 dark:text-green-300 rounded-full px-3 py-1 text-sm">
                   Digital Streaming
                 </span>
@@ -96,8 +96,8 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
           </div>
 
           <div className="pt-6">
-            {isUnfortunateBrothers && (
-              <StreamingOptions />
+            {isPhysicalDVD && (
+              <StreamingOptions documentaryId={product.id} />
             )}
             
             {isPhysicalDVD ? (
